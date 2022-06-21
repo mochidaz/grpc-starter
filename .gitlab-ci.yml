@@ -1,0 +1,57 @@
+stages:
+  - test
+
+.lint-and-test-rule:
+  only:
+    - /^production-.*$/
+    - /^develop-.*$/
+    - merge_request
+
+code-lint:
+  image: alkaidgo/golangci-lint-alpine:v1.46.1
+  stage: test
+  extends: .lint-and-test-rule
+  before_script:
+    - apk add make
+    - go install golang.org/x/tools/cmd/goimports@latest
+    - apk add protobuf-dev
+    - go install github.com/envoyproxy/protoc-gen-validate@latest
+    - go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+    - go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+    - go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+    - go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+    - go install github.com/planetscale/vtprotobuf/cmd/protoc-gen-go-vtproto@latest
+  script:
+    - make generate-pb
+    - make pretty
+  tags:
+    - your-docker-tag
+
+unit-test:
+  image: golang:1.18-alpine
+  stage: test
+  extends: .lint-and-test-rule
+  allow_failure: true
+  before_script:
+    - apk add make
+    - apk add g++
+    - apk add protobuf-dev
+    - go install github.com/t-yuki/gocover-cobertura@latest
+    - go install github.com/envoyproxy/protoc-gen-validate@latest
+    - go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+    - go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+    - go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+    - go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+    - go install github.com/planetscale/vtprotobuf/cmd/protoc-gen-go-vtproto@latest
+  script:
+    - make generate-pb
+    - make cover
+    - gocover-cobertura < coverage.out > coverage.xml
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.html
+  coverage: /total:\s+\(statements\)\s+(\d+.\d+)\%/
+  tags:
+    - your-docker-tag
