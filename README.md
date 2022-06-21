@@ -34,7 +34,7 @@ It comes pre-configured with :
 Use this command to install the blueprint
 
 ```bash
-go get git.gits.id/rifqiakrm/grpc-starter
+go get github.com/rifqiakrm/grpc-starter
 ```
 
 or manually clone the repo.
