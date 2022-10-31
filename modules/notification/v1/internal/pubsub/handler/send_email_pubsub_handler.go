@@ -13,13 +13,12 @@ import (
 	"grpc-starter/common/config"
 	"grpc-starter/common/logger"
 	"grpc-starter/modules/notification/v1/entity"
-	"grpc-starter/modules/notification/v1/service"
 )
 
 // SendEmailPubSubHandler struct
 type SendEmailPubSubHandler struct {
 	cfg            config.Config
-	emailSenderSvc service.EmailSenderUsecase
+	emailSenderSvc service_old.EmailSenderUsecase
 }
 
 const (
@@ -30,7 +29,7 @@ const (
 // NewSendEmailPubSubHandler create ptk pubsub handler
 func NewSendEmailPubSubHandler(
 	cfg config.Config,
-	emailSenderSvc service.EmailSenderUsecase,
+	emailSenderSvc service_old.EmailSenderUsecase,
 ) *SendEmailPubSubHandler {
 	return &SendEmailPubSubHandler{
 		cfg:            cfg,

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package starter.notification.v1;
+
+option go_package = "grpc-starter/api/notification/v1;notificationv1";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+service NotificationService {
+  rpc CreateNotification(CreateNotificationRequest) returns (CreateNotificationResponse) {
+    option (google.api.http) = {
+      post: "/v1/notification"
+      body: "*"
+    };
+  }
+
+  rpc GetNotificationByID(GetNotificationByIDRequest) returns (GetNotificationResponse) {
+    option (google.api.http) = {
+      get: "/v1/notification/{id}"
+    };
+  }
+
+  rpc GetNotificationByMID(GetNotificationByMIDRequest) returns (ListNotificationResponse) {
+    option (google.api.http) = {
+      get: "/v1/notification/user/{m_id}"
+    };
+  }
+
+  rpc GetNotificationByEmail(GetNotificationByEmailRequest) returns (ListNotificationResponse) {
+    option (google.api.http) = {
+      get: "/v1/notification/email/{email}"
+    };
+  }
+
+  rpc ListNotifications(ListNotificationRequest) returns (ListNotificationResponse) {
+    option (google.api.http) = {
+      get: "/v1/notification"
+    };
+  }
+}
+message CreateNotificationRequest {
+  string title = 1 [(google.api.field_behavior) = REQUIRED];
+  string body = 2 [(google.api.field_behavior) = REQUIRED];
+  string to = 3;
+  string from = 4;
+  string m_id = 5;
+  string category = 6;
+}
+
+message CreateNotificationResponse {
+  string title = 1;
+  string body = 2;
+  string to = 3;
+  string from = 4;
+  string category = 5;
+  string m_id = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message GetNotificationByIDRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetNotificationByEmailRequest {
+  string email = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetNotificationByMIDRequest {
+  string m_id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message Notification {
+  string id = 1;
+  string title = 2;
+  string body = 3;
+  string to = 4;
+  string from = 5;
+  string m_id = 6;
+  string status = 7;
+  string username = 8;
+  string category = 9;
+  string created_at = 10;
+  string updated_at = 11;
+}
+
+message GetNotificationResponse {
+  Notification notification = 1;
+}
+
+message ListNotificationRequest {
+
+}
+
+message ListNotificationResponse {
+  repeated Notification notification = 1;
+}

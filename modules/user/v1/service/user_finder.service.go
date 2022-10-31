@@ -30,6 +30,10 @@ type UserFinderUseCase interface {
 	FindByID(ctx context.Context, refID uuid.UUID) (*entity.User, error)
 	// Login finds user by email and password and generates token returns user and token
 	Login(ctx context.Context, email string, password string) (*entity.User, string, error)
+	// FindByEmail finds user by email
+	FindByEmail(ctx context.Context, email string) (*entity.User, error)
+	// FindAllUsers finds all users
+	FindAllUsers(ctx context.Context) ([]*entity.User, error)
 }
 
 // NewUserFinder constructs new instance of UserFinder
@@ -95,4 +99,31 @@ func (svc *UserFinder) Login(ctx context.Context, email string, password string)
 	}
 
 	return res, token, nil
+}
+
+// FindByEmail finds user by email
+func (svc *UserFinder) FindByEmail(ctx context.Context, email string) (*entity.User, error) {
+	res, err := svc.userFinderRepository.FindByEmail(ctx, email)
+
+	if err != nil {
+		log.Println("[UserFinder - FindByEmail] Error while finding user data :", err)
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.ErrRecordNotFound.Error()
+		}
+		return nil, err
+	}
+
+	return res, nil
+}
+
+// FindAllUsers finds all users
+func (svc *UserFinder) FindAllUsers(ctx context.Context) ([]*entity.User, error) {
+	res, err := svc.userFinderRepository.FindAllUsers(ctx)
+
+	if err != nil {
+		log.Println("[UserFinder - FindAllUsers] Error while finding user data :", err)
+		return nil, err
+	}
+
+	return res, nil
 }

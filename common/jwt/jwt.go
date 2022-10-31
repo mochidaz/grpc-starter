@@ -16,11 +16,11 @@ import (
 )
 
 const (
-	// userServiceLogin is the name of the service that is used for login.
+	// userServiceLogin is the name of the service.old that is used for login.
 	userServiceLogin = "/starter.user.v1.UserService/Login"
-	// userServiceRegister is the name of the service that is used for register.
+	// userServiceRegister is the name of the service.old that is used for register.
 	userServiceRegister = "/starter.user.v1.UserService/Register"
-	//nolint // userServiceForgotPassword is the name of the service that is used for forgot password.
+	//nolint // userServiceForgotPassword is the name of the service.old that is used for forgot password.
 	userServiceForgotPassword = "/starter.user.v1.UserService/ForgotPassword"
 )
 

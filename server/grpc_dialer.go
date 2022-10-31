@@ -70,7 +70,7 @@ func DialWithSSL(name string, certFile string, opts ...DialOption) (*grpc.Client
 	return conn, nil
 }
 
-// InitGRPCConn returns gRPC client connection for connecting to another service
+// InitGRPCConn returns gRPC client connection for connecting to another service.old
 func InitGRPCConn(addr string, ssl bool, cert string) *grpc.ClientConn {
 	if ssl {
 		conn, err := DialWithSSL(addr, cert)

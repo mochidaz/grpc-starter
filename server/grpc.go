@@ -13,7 +13,6 @@ import (
 	"cloud.google.com/go/profiler"
 	"contrib.go.opencensus.io/exporter/stackdriver"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_logsettable "github.com/grpc-ecosystem/go-grpc-middleware/logging/settable"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
@@ -26,7 +25,6 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	commonJwt "grpc-starter/common/jwt"
 	"grpc-starter/server/interceptor"
 )
 
@@ -159,7 +157,7 @@ func defaultUnaryServerInterceptors() []grpc.UnaryServerInterceptor {
 	options := []grpc.UnaryServerInterceptor{
 		grpc_recovery.UnaryServerInterceptor(grpc_recovery.WithRecoveryHandler(recoveryHandler)),
 		grpc_zap.UnaryServerInterceptor(logger),
-		grpc_auth.UnaryServerInterceptor(commonJwt.Authorize),
+		//grpc_auth.UnaryServerInterceptor(commonJwt.Authorize),
 		grpc_prometheus.UnaryServerInterceptor,
 	}
 	return options

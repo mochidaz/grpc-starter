@@ -79,13 +79,13 @@ type SMTP struct {
 	FromEmail string `env:"SMTP_FROM_EMAIL"`
 }
 
-// Mailgun holds configuration for mailgun service.
+// Mailgun holds configuration for mailgun service.old.
 type Mailgun struct {
 	APIKey string `env:"MAILGUN_API_KEY"`
 	Domain string `env:"MAILGUN_DOMAIN"`
 }
 
-// Sendgrid holds configuration for sendgrid service.
+// Sendgrid holds configuration for sendgrid service.old.
 type Sendgrid struct {
 	APIKey string `env:"SENDGRID_API_KEY"`
 }

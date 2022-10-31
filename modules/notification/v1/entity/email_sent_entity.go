@@ -1,8 +1,6 @@
 package entity
 
 import (
-	"database/sql"
-
 	"grpc-starter/common/entity"
 )
 
@@ -19,15 +17,14 @@ const (
 
 // EmailSent represents table on db
 type EmailSent struct {
-	ID          int
-	MId         string
-	From        string
-	To          string
-	Subject     string
-	Content     string
-	Status      string
-	StatusNotes sql.NullString
-	Category    string
+	ID       int
+	MId      string
+	From     string
+	To       string
+	Subject  string
+	Content  string
+	Status   string
+	Category string
 	entity.Auditable
 }
 
@@ -53,4 +50,9 @@ func NewEmailSent(mID, from, to, subject, content, status, category, creator str
 // TableName represents table name on db, need to define it because the db has multi schema
 func (e *EmailSent) TableName() string {
 	return EmailSentTableName
+}
+
+type EmailWithUsername struct {
+	EmailSent
+	Username string
 }

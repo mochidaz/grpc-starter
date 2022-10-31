@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-
 	"go.opencensus.io/trace"
 	"gorm.io/gorm"
 
@@ -17,6 +16,12 @@ type EmailSent struct {
 // NewEmailSent will create new email sent repository
 func NewEmailSent(db *gorm.DB) *EmailSent {
 	return &EmailSent{db}
+}
+
+type EmailSentUseCase interface {
+	Insert(ctx context.Context, emailSent *entity.EmailSent) error
+
+	UpdateStatus(ctx context.Context, emailSent *entity.EmailSent) error
 }
 
 // Insert will insert notification email sent to database

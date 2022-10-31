@@ -117,3 +117,7 @@ validate-migration:
 .PHONY: generate-pb
 generate-pb:
 	bin/generate-pb.sh
+
+.PHONY: seed
+seed:
+	go run db/seeders/main.go

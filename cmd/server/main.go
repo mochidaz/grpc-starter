@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	userv1 "grpc-starter/api/user/v1"
 	"log"
 
 	"github.com/gomodule/redigo/redis"
@@ -116,8 +117,10 @@ func registerGrpcHandlers(
 	redisPool *redis.Pool,
 	grpcConn *grpc.ClientConn,
 ) {
+	client := userv1.NewUserServiceClient(grpcConn)
 	// start register all module's gRPC handlers
 	userModules.InitGrpc(server, cfg, db, redisPool, grpcConn)
+	notificationModules.InitNotification(server, cfg, db, grpcConn, client)
 	// end of register all module's gRPC handlers
 }
 
@@ -130,16 +133,16 @@ func registerRestHandlers(ctx context.Context, server *runtime.ServeMux, grpcPor
 }
 
 //nolint // registerPubSubHandlers registers all the pubsub handlers
-func registerPubSubHandlers(
-	ctx context.Context,
-	db *gorm.DB,
-	config config.Config,
-) []pubsubSDK.Subscriber {
-	var handlers []pubsubSDK.Subscriber
-	handlers = append(handlers, notificationModules.InitSendEmailSubscription(ctx, db, config))
-
-	return handlers
-}
+//func registerPubSubHandlers(
+//	ctx context.Context,
+//	db *gorm.DB,
+//	config config.Config,
+//) []pubsubSDK.Subscriber {
+//	var handlers []pubsubSDK.Subscriber
+//	handlers = append(handlers, notificationModules.InitSendEmailSubscription(ctx, db, config))
+//
+//	return handlers
+//}
 
 // buildRedisPool builds a redis pool
 func buildRedisPool(cfg *config.Config) *redis.Pool {

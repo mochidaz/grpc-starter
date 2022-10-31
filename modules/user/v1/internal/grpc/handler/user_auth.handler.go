@@ -14,9 +14,9 @@ import (
 	"grpc-starter/modules/user/v1/service"
 )
 
-// UserHandler is a gRPC handler for the user auth service.
+// UserHandler is a gRPC handler for the user auth service.old.
 type UserHandler struct {
-	userv1.UnimplementedUserServiceServer
+	userv1.UserServiceServer
 	config         config.Config
 	userFinderSvc  service.UserFinderUseCase
 	userCreatorSvc service.UserCreatorUseCase

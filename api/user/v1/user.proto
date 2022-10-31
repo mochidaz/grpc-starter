@@ -35,6 +35,18 @@ service UserService {
       body: "*"
     };
   }
+
+  rpc GetProfile(GetProfileRequest) returns (GetProfileResponse) {
+    option (google.api.http) = {
+      get : "/v1/profile",
+    };
+  }
+
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUserResponse) {
+    option (google.api.http) = {
+      get : "/v1/users",
+    };
+  }
 }
 
 message LoginRequest {
@@ -86,3 +98,34 @@ message ChangePasswordResponse {
   string message = 2;
   string data = 3;
 }
+
+message GetProfileRequest {
+  string id = 1;
+}
+
+message GetProfileResponse {
+  uint32 code = 1;
+  string message = 2;
+  message Profile {
+    string username = 2;
+    string email = 3;
+    string phone_number = 4;
+  }
+  Profile data = 3;
+}
+
+message GetAllUsersRequest {
+}
+
+message GetAllUserResponse {
+  uint32 code = 1;
+  string message = 2;
+  message Profile {
+    string username = 2;
+    string email = 3;
+    string phone_number = 4;
+    string user_id = 5;
+  }
+  repeated Profile data = 3;
+}
+
